@@ -36,4 +36,5 @@ when installed you can clone the repo and run pose_command.py or model_command.p
 Shimon Fiddler at Middlesex university
 
 ## Report
-The two main approaches addressind in this project are conventional and AI based. The conventional approach is contained in the pose_command.py file. This works by taking an image of the user via the camera (using open cv) calculating the pose (using mediapipe)
+The two main approaches addressind in this project are conventional and AI based. The conventional approach is contained in the pose_command.py file. This works by taking an image of the user via the camera (using open cv) calculating the pose (using mediapipe). Mediapipe as configured takes an image and returns a list of landmark positions in the human body. The landmarks are in the following image.
+![Mediapipe Landmarks](image.png)
