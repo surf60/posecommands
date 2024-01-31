@@ -3,6 +3,7 @@ import mediapipe as mp
 import math
 import rclpy
 from geometry_msgs.msg import Twist
+
 ## initialize pose estimator
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -38,19 +39,20 @@ while cap.isOpened():
     left_angle = left_elbow.y
     right_angle = right_elbow.y
 
-    if left_angle > 1:
-        msg.linear.x = 1
-    elif left_angle < -1:
-        msg.linear.x = -1
+    if left_angle > 0.3:
+        msg.linear.x = 1.0
+    elif left_angle < 0.5:
+        msg.linear.x = -1.0
     else:
-        msg.linear.x = 0
+        msg.linear.x = 0.0
 
-    if right_angle > 1:
-        msg.angular.z = 1
-    elif right_angle < -1:
-        msg.angular.z = -1
+    if right_angle > 0.3:
+        msg.angular.z = 1.0
+    elif right_angle < 0.5:
+        msg.angular.z = -1.0
     else:
-        msg.angular.z = 0
+        msg.angular.z = 0.0
+        
     # draw skeleton on the frame
     publisher.publish(msg)
     mp_drawing.draw_landmarks(frame, pose_results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
