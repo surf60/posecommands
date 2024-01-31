@@ -13,9 +13,8 @@ data = pd.read_csv("bigdata.csv")
 current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
 threshold = 0.65
 df = pd.DataFrame(data, columns=['state','left_shoulder.x','left_shoulder.y','left_shoulder.z','left_shoulder.visibility','right_shoulder.x','right_shoulder.y','right_shoulder.z','right_shoulder.visibility','left_elbow.x','left_elbow.y','left_elbow.z','left_elbow.visibility','right_elbow.x','right_elbow.y','right_elbow.z','right_elbow.visibility','left_wrist.x','left_wrist.y','left_wrist.z','left_wrist.visibility','right_wrist.x','right_wrist.y','right_wrist.z','right_wrist.visibility'])
-#print(df.head(2))
-#normaliseation
 
+#normaliseation
 coordinates_columns = ['left_shoulder.x','left_shoulder.y','left_shoulder.z','left_shoulder.visibility','right_shoulder.x','right_shoulder.y','right_shoulder.z','right_shoulder.visibility','left_elbow.x','left_elbow.y','left_elbow.z','left_elbow.visibility','right_elbow.x','right_elbow.y','right_elbow.z','right_elbow.visibility','left_wrist.x','left_wrist.y','left_wrist.z','left_wrist.visibility','right_wrist.x','right_wrist.y','right_wrist.z','right_wrist.visibility']
 coordinates = df[coordinates_columns]
 normalized_coordinates = coordinates.copy()
@@ -36,8 +35,6 @@ normalized_coordinates['right_wrist.y']=normalized_coordinates['right_wrist.y']/
 data.update(normalized_coordinates)
 df = df.drop(['left_shoulder.z', 'right_shoulder.z', 'left_elbow.z', 'right_elbow.z', 'left_wrist.z', 'right_wrist.z'], axis=1)
 df = df.drop(['left_shoulder.visibility','right_shoulder.visibility','left_elbow.visibility', 'right_elbow.visibility', 'left_wrist.visibility', 'right_wrist.visibility'], axis=1)
-# print(df.shape)
-# print(df)
 
 #train test data
 X = df.drop(columns=['state'])  # Features

@@ -16,14 +16,10 @@ while cap.isOpened():
     # read frame
     _, frame = cap.read()
     try:
-        # resize the frame for portrait video
-        #frame = cv2.resize(frame, (350, 600))
-        # convert to RGB
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         
         # process the frame for pose detection
         pose_results = pose.process(frame_rgb)
-        #print(pose_results.pose_landmarks)
         left_shoulder = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_SHOULDER]
         right_shoulder = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER]
         left_elbow = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_ELBOW]

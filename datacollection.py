@@ -1,6 +1,5 @@
 import cv2
 import mediapipe as mp
-#import math
 import time
 from datetime import datetime
 ## initialize pose estimator
@@ -19,27 +18,16 @@ while cap.isOpened():
     # read frame
     _, frame = cap.read()
     try:
-        # resize the frame for portrait video
-        #frame = cv2.resize(frame, (350, 600))
-        # convert to RGB
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         
         # process the frame for pose detection
         pose_results = pose.process(frame_rgb)
-        #print(pose_results.pose_landmarks)
         left_shoulder = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_SHOULDER]
         right_shoulder = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER]
         left_elbow = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_ELBOW]
         right_elbow = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_ELBOW]        
         left_wrist = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_WRIST]
         right_wrist = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_WRIST]
-        #left_angle = abs(math.atan(left_shoulder.x-left_elbow.x/left_elbow.y-left_shoulder.y))
-        #right_angle = abs(math.atan(right_shoulder.x-right_elbow.x/right_elbow.y-right_shoulder.y))
-        
-        #left_angle, right_angle = num_to_range(left_angle,0.2,1.2,-1,1), num_to_range(left_angle,0.2,1.2,-1,1)
-        #print(left_angle, right_angle)
-        # draw skeleton on the frame
-        #out.write(f'left_shoulder {left_shoulder}right_shoulder {right_shoulder}left_elbow {left_elbow}right_elbow {right_elbow}left_wrist {left_wrist}right_wrist {right_wrist}')
         if time.time() - start > 160:
             time.sleep(5)
             i += 1

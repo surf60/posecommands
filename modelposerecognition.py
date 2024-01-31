@@ -18,7 +18,6 @@ while cap.isOpened():
     
     # process the frame for pose detection
     pose_results = pose.process(frame_rgb)
-    #print(pose_results.pose_landmarks)
     left_shoulder = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_SHOULDER]
     right_shoulder = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER]
     left_elbow = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_ELBOW]

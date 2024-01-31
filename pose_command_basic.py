@@ -22,33 +22,36 @@ upper_range_r = -6.0
 
 def num_to_range(num, inMin, inMax, outMin, outMax):
     return outMin + (float(num - inMin) / float(inMax - inMin) * (outMax - outMin))
-
-def drive_map(left_angle,right_angle):
-    left_angle, right_angle = num_to_range(left_angle,lower_range_l,upper_range_r,-1,1), num_to_range(right_angle,lower_range_l,upper_range_r,-1,1)
-    return (abs(left_angle),abs(right_angle))
     
 while cap.isOpened():
     # read frame
     _, frame = cap.read()
-    # convert to RGB
+
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
     # process the frame for pose detection
     pose_results = pose.process(frame_rgb)
-    left_shoulder = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_SHOULDER]
-    right_shoulder = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_SHOULDER]
+
     left_elbow = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_ELBOW]
     right_elbow = pose_results.pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_ELBOW]        
     
-    left_angle = math.atan(left_shoulder.x-left_elbow.x/left_elbow.y-left_shoulder.y)
-    right_angle = math.atan(right_shoulder.x-right_elbow.x/right_elbow.y-right_shoulder.y)
+    left_angle = left_elbow.y
+    right_angle = right_elbow.y
 
-    left_angle, right_angle = num_to_range(left_angle,0.6,1.2,-1,1), num_to_range(right_angle,0.6,1.2,-1,1)
+    if left_angle > 1:
+        msg.linear.x = 1
+    elif left_angle < -1:
+        msg.linear.x = -1
+    else:
+        msg.linear.x = 0
 
-    print(left_angle,right_angle)
-    left_angle, right_angle = drive_map(left_angle,right_angle)
+    if right_angle > 1:
+        msg.angular.z = 1
+    elif right_angle < -1:
+        msg.angular.z = -1
+    else:
+        msg.angular.z = 0
     # draw skeleton on the frame
-    msg.linear.x, msg.angular.z = left_angle, right_angle
     publisher.publish(msg)
     mp_drawing.draw_landmarks(frame, pose_results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
     # display the frame
