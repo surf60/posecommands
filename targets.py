@@ -3,6 +3,9 @@ from turtlesim.msg import Pose
 import turtlesim.srv
 from random import randint
 
+xcord = 5
+ycord = 5
+
 def spawn_target():
     # Create a service client to spawn a new target turtle
     node = rclpy.create_node('spawn_target_client')
@@ -14,8 +17,9 @@ def spawn_target():
 
     # Create the request message
     request = turtlesim.srv.Spawn.Request()
-    request.x = float(randint(1,9))
-    request.y = float(randint(1,9))
+    request.x = float(xcord)
+    request.y = float(ycord)
+    print(request.x,request.y)
     request.theta = 0.0
     request.name = 'target'
 
@@ -59,16 +63,19 @@ def destroy_turtle():
     node.destroy_client(client)
 
 def pose_callback(data):
+    global xcord
+    global ycord
     # Check for collision with the target
-    target_x = float(randint(1,9))
-    target_y = float(randint(1,9))
+    target_x = xcord
+    target_y = ycord
     collision_threshold = 0.5
-
     distance_to_target = ((data.x - target_x)**2 + (data.y - target_y)**2)**0.5
 
     if distance_to_target < collision_threshold:
         print("Collision with target!")
         destroy_turtle()  # Destroy the current turtle
+        xcord = randint(1,9)
+        ycord = randint(1,9)
         spawn_target()  # Respawn the target
 
 def turtle_listener():
