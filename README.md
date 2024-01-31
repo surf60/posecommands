@@ -41,6 +41,8 @@ When installed you can clone the repo and run pose_command.py or model_command.p
 Shimon Fiddler at Middlesex university
 
 ## Report
+The project is written to interface with turtlesim. This is because turtlesim responds to the same ros messages as many other robots and enables an environment for testing with little configuration. In this project I am publishing a twist message on the '/turtlesim/cmd_vel' topic and this can simply be changed for a different robot. As the turtlesim is such a simple project it means some features are not implanted at all, an example being collision detection. Due to this limitation, I have had to implement the functionality myself in the 'targets.py' program that spawns a turtle as a target for your turtle to get to. Once achieved the current goal turtle is killed and a new one is spawned. This is a separate program to maintain the modular architecture of ros making the control code mentioned later in this report capable of running on hardware with little modification. 
+
 The two main approaches addressed in this project are conventional and AI based. The conventional approach is contained in the 'pose_command.py' file. This works by taking an image of the user via the camera (using open cv) calculating the pose (using Mediapipe). Mediapipe as configured takes an image and returns a list of landmark positions in the human body. The landmarks are in the following image.\
 ![Mediapipe Landmarks](image.png)\
 [Mediapipe documentation - Google - https://developers.google.com/mediapipe/solutions/vision/pose_landmarker]\
